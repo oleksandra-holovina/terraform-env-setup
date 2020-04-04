@@ -20,16 +20,35 @@ module "curis-vpc" {
   route_table_cidr = "0.0.0.0/0"
 }
 
+module "curis-ecs" {
+  source = "../modules/ecs"
+  name   = "main-cluster"
+}
+
+module "curis-ecr-frontend" {
+  source = "../modules/ecr"
+  name   = "curis-frontend"
+}
+
+module "curis-ecr-api" {
+  source = "../modules/ecr"
+  name   = "curis-api"
+}
+
 module "curis-ec2" {
   source = "../modules/ec2"
 
-  ami_id        = "ami-01b01bbd08f24c7a8"
+  ami_id        = "ami-044bf85e844eddde5"
   instance_type = "t2.micro"
+  key_name      = "curis-api-key-pair"
 
   vpc_id    = module.curis-vpc.vpc_id
   subnet_id = module.curis-vpc.subnet_id
 
   sg_ids         = module.curis-ec2.sg_ids
   sg_cidr_blocks = ["0.0.0.0/0"]
+
+  cluster_name = module.curis-ecs.cluster_name
 }
+
 
