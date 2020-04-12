@@ -1,0 +1,4 @@
+variable "description" {}
+
+variable "alias" {}
+

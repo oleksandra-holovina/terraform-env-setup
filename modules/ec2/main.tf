@@ -20,6 +20,14 @@ resource "aws_security_group" "curis-api-sg" {
   }
 
   ingress {
+    description = "HTTP from VPC"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = var.sg_cidr_blocks
+  }
+
+  ingress {
     description = "SSH from VPC"
     from_port   = 22
     to_port     = 22
@@ -42,13 +50,13 @@ resource "aws_security_group" "curis-api-sg" {
 }
 
 resource "aws_iam_role" "curis-role" {
-  name = "curis-role"
+  name               = "curis-role"
   assume_role_policy = file("${path.module}/policies/aws_iam_role-policy.json")
 }
 
 resource "aws_iam_role_policy" "curis-role-policy" {
-  name = "curis-role-policy"
-  role = aws_iam_role.curis-role.id
+  name   = "curis-role-policy"
+  role   = aws_iam_role.curis-role.id
   policy = file("${path.module}/policies/aws_iam_role_policy-policy.json")
 }
 
@@ -58,11 +66,11 @@ resource "aws_iam_instance_profile" "curis-iam-instance" {
 }
 
 resource "aws_instance" "curis-api" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
   vpc_security_group_ids = var.sg_ids
-  subnet_id = var.subnet_id
-  key_name = var.key_name
+  subnet_id              = var.subnet_id
+  key_name               = var.key_name
 
   user_data = <<EOF
 #!/bin/bash

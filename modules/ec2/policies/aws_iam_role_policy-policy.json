@@ -15,7 +15,13 @@
         "ecr:BatchCheckLayerAvailability",
         "ecr:GetDownloadUrlForLayer",
         "ecr:BatchGetImage",
-        "ecs:StartTask"
+        "ecs:StartTask",
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams",
+        "ssm:GetParametersByPath",
+        "kms:Decrypt"
       ],
       "Resource": "*"
     }
