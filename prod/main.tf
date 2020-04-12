@@ -10,24 +10,34 @@ module "curis-vpc" {
   vpc_cidr = "10.0.0.0/16"
 }
 
-module "curis-subnet-1" {
-  source = "../modules/subnets"
-
-  vpc_id              = module.curis-vpc.vpc_id
-  subnet_cidr         = "10.0.1.0/24"
-  associate_public_ip = true
-  availability_zone   = "us-east-2b"
-  tag_name            = "subnet-1"
-}
-
-module "curis-subnet-2" {
+module "curis-subnet-public" {
   source = "../modules/subnets"
 
   vpc_id              = module.curis-vpc.vpc_id
   subnet_cidr         = "10.0.0.0/24"
   associate_public_ip = true
   availability_zone   = "us-east-2a"
-  tag_name            = "subnet-2"
+  tag_name            = "subnet-public"
+}
+
+module "curis-subnet-private-1" {
+  source = "../modules/subnets"
+
+  vpc_id              = module.curis-vpc.vpc_id
+  subnet_cidr         = "10.0.1.0/24"
+  associate_public_ip = false
+  availability_zone   = "us-east-2a"
+  tag_name            = "subnet-private-1"
+}
+
+module "curis-subnet-private-2" {
+  source = "../modules/subnets"
+
+  vpc_id              = module.curis-vpc.vpc_id
+  subnet_cidr         = "10.0.2.0/24"
+  associate_public_ip = false
+  availability_zone   = "us-east-2b"
+  tag_name            = "subnet-private-2"
 }
 
 module "curis-route-table" {
@@ -39,7 +49,7 @@ module "curis-route-table" {
   route_table_id   = module.curis-route-table.route_table_id
   route_table_cidr = "0.0.0.0/0"
 
-  subnet_id = module.curis-subnet-1.subnet_id
+  subnet_id = module.curis-subnet-public.subnet_id
 }
 
 module "curis-ecs" {
@@ -65,7 +75,7 @@ module "curis-ec2" {
   key_name      = "curis-api-key-pair"
 
   vpc_id    = module.curis-vpc.vpc_id
-  subnet_id = module.curis-subnet-1.subnet_id
+  subnet_id = module.curis-subnet-public.subnet_id
 
   sg_ids         = module.curis-ec2.sg_ids
   sg_cidr_blocks = ["0.0.0.0/0"]
@@ -88,7 +98,7 @@ module "curis-db" {
   param-grp-family = "mysql8.0"
 
   subnet-group-name = "mysql-subnet-grp"
-  subnet_ids        = [module.curis-subnet-1.subnet_id, module.curis-subnet-2.subnet_id]
+  subnet_ids        = [module.curis-subnet-private-1.subnet_id, module.curis-subnet-private-2.subnet_id]
 
   sg-name       = "main-db-sg"
   sg-ids        = [module.curis-db.sg-id]
@@ -110,5 +120,5 @@ module "kms-db" {
   source = "../modules/kms"
 
   description = "Key to protect curis db"
-  alias = "alias/curis-db-key"
+  alias       = "alias/curis-db-key"
 }

@@ -49,20 +49,20 @@ resource "aws_security_group" "curis-api-sg" {
   }
 }
 
-resource "aws_iam_role" "curis-role" {
-  name               = "curis-role"
+resource "aws_iam_role" "curis-ec2-role" {
+  name               = "ec2-instance-role"
   assume_role_policy = file("${path.module}/policies/aws_iam_role-policy.json")
 }
 
 resource "aws_iam_role_policy" "curis-role-policy" {
   name   = "curis-role-policy"
-  role   = aws_iam_role.curis-role.id
+  role   = aws_iam_role.curis-ec2-role.id
   policy = file("${path.module}/policies/aws_iam_role_policy-policy.json")
 }
 
 resource "aws_iam_instance_profile" "curis-iam-instance" {
   name = "curis-iam-instance"
-  role = aws_iam_role.curis-role.name
+  role = aws_iam_role.curis-ec2-role.name
 }
 
 resource "aws_instance" "curis-api" {
