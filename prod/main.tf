@@ -83,6 +83,13 @@ module "curis-ec2" {
   cluster_name = module.curis-ecs.cluster_name
 }
 
+module "curis-kms-db" {
+  source = "../modules/kms"
+
+  description = "Key to protect curis db"
+  alias       = "alias/curis-db-key"
+}
+
 data "aws_ssm_parameter" "curis-db-username" {
   name = "/config/curis-api/db.username"
 }
@@ -116,9 +123,10 @@ module "curis-db" {
   param-group-name  = module.curis-db.param-group-name
 }
 
-module "kms-db" {
-  source = "../modules/kms"
+module "curis-route53" {
+  source = "../modules/route53"
 
-  description = "Key to protect curis db"
-  alias       = "alias/curis-db-key"
+  domain-name = "curisnow.com"
+  ec2-ip = module.curis-ec2.ec2_ip
+  ttl = 300
 }

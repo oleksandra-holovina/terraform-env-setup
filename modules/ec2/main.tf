@@ -28,6 +28,14 @@ resource "aws_security_group" "curis-api-sg" {
   }
 
   ingress {
+    description = "HTTPS from VPC"
+    from_port   = 8443
+    to_port     = 8443
+    protocol    = "tcp"
+    cidr_blocks = var.sg_cidr_blocks
+  }
+
+  ingress {
     description = "SSH from VPC"
     from_port   = 22
     to_port     = 22
