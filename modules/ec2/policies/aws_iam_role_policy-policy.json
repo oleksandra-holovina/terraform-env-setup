@@ -21,7 +21,8 @@
         "logs:PutLogEvents",
         "logs:DescribeLogStreams",
         "ssm:GetParametersByPath",
-        "kms:Decrypt"
+        "kms:Decrypt",
+        "s3:GetObject"
       ],
       "Resource": "*"
     }

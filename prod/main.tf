@@ -130,3 +130,8 @@ module "curis-route53" {
   ec2-ip = module.curis-ec2.ec2_ip
   ttl = 300
 }
+
+module "curis-s3-ssl" {
+  source = "../modules/s3"
+  curis_kms_id = module.curis-kms-db.kms-arn
+}
