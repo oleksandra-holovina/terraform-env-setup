@@ -22,7 +22,11 @@
         "logs:DescribeLogStreams",
         "ssm:GetParametersByPath",
         "kms:Decrypt",
-        "s3:GetObject"
+        "s3:GetObject",
+        "ses:SendEmail",
+        "ses:SendTemplatedEmail",
+        "ses:SendRawEmail",
+        "ses:SendBulkTemplatedEmail"
       ],
       "Resource": "*"
     }
