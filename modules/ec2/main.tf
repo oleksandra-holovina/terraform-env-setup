@@ -1,4 +1,4 @@
-resource "aws_security_group" "curis-api-sg" {
+resource "aws_security_group" "curis_api_sg" {
   name        = "api-sg"
   description = "https, http, ssh"
   vpc_id      = var.vpc_id
@@ -44,9 +44,9 @@ resource "aws_security_group" "curis-api-sg" {
   }
 
   egress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = [
       "0.0.0.0/0"
     ]
@@ -57,23 +57,23 @@ resource "aws_security_group" "curis-api-sg" {
   }
 }
 
-resource "aws_iam_role" "curis-ec2-role" {
+resource "aws_iam_role" "curis_ec2_role" {
   name               = "ec2-instance-role"
   assume_role_policy = file("${path.module}/policies/aws_iam_role-policy.json")
 }
 
-resource "aws_iam_role_policy" "curis-role-policy" {
+resource "aws_iam_role_policy" "curis_role_policy" {
   name   = "curis-role-policy"
-  role   = aws_iam_role.curis-ec2-role.id
+  role   = aws_iam_role.curis_ec2_role.id
   policy = file("${path.module}/policies/aws_iam_role_policy-policy.json")
 }
 
-resource "aws_iam_instance_profile" "curis-iam-instance" {
+resource "aws_iam_instance_profile" "curis_iam_instance" {
   name = "curis-iam-instance"
-  role = aws_iam_role.curis-ec2-role.name
+  role = aws_iam_role.curis_ec2_role.name
 }
 
-resource "aws_instance" "curis-api" {
+resource "aws_instance" "curis_api" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
   vpc_security_group_ids = var.sg_ids
@@ -85,7 +85,7 @@ resource "aws_instance" "curis-api" {
 echo ECS_CLUSTER=${var.cluster_name} >> /etc/ecs/ecs.config
 EOF
 
-  iam_instance_profile = aws_iam_instance_profile.curis-iam-instance.name
+  iam_instance_profile = aws_iam_instance_profile.curis_iam_instance.name
 
   tags = {
     Name = "api-instance"

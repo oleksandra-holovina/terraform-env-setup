@@ -1,7 +1,9 @@
-variable "domain-name" {}
+variable "domain_name" {}
 
-variable "ec2-ip" {}
+variable "ec2_ip" {}
 
 variable "ttl" {
   default = 300
 }
+
+variable "ns_records" {}

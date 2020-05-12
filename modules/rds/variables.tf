@@ -1,18 +1,18 @@
-variable "param-grp-name" {}
+variable "param_grp_name" {}
 
-variable "param-grp-family" {}
+variable "param_grp_family" {}
 
-variable "subnet-group-name" {}
+variable "subnet_group_name" {}
 
 variable "subnet_ids" {}
 
 variable "vpc_id" {}
 
-variable "sg-ids" {}
+variable "sg_ids" {}
 
-variable "sg-name" {}
+variable "sg_name" {}
 
-variable "security-grps" {}
+variable "security_grps" {}
 
 variable "allocated_storage" {
   default = 20
@@ -30,10 +30,10 @@ variable "instance_class" {
   default = "db.t2.micro"
 }
 
-variable "db-name" {}
+variable "db_name" {}
 
-variable "db-username" {}
+variable "db_username" {}
 
-variable "db-password" {}
+variable "db_password" {}
 
-variable "param-group-name" {}
+variable "param_group_name" {}

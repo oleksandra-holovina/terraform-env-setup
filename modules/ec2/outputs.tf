@@ -1,7 +1,8 @@
 output "sg_ids" {
-  value = [aws_security_group.curis-api-sg.id]
+  value = [
+    aws_security_group.curis_api_sg.id]
 }
 
 output "ec2_ip" {
-  value = aws_instance.curis-api.public_ip
+  value = aws_instance.curis_api.public_ip
 }

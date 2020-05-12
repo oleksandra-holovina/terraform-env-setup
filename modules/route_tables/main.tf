@@ -1,4 +1,4 @@
-resource "aws_route_table" "curis-route" {
+resource "aws_route_table" "curis_route" {
   vpc_id = var.vpc_id
 
   route {
@@ -11,7 +11,7 @@ resource "aws_route_table" "curis-route" {
   }
 }
 
-resource "aws_route_table_association" "curis-rt-association" {
+resource "aws_route_table_association" "curis_rt_association" {
   subnet_id      = var.subnet_id
   route_table_id = var.route_table_id
 }
