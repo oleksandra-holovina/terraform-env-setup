@@ -134,10 +134,10 @@ module "curis_route53" {
   ec2_ip      = module.curis_ec2.ec2_ip
   ttl         = 300
   ns_records  = [
-    "ns1.bdm.microsoftonline.com",
-    "ns2.bdm.microsoftonline.com",
-    "ns3.bdm.microsoftonline.com",
-    "ns4.bdm.microsoftonline.com"
+    "ns-27.awsdns-03.com",
+    "ns-1037.awsdns-01.org",
+    "ns-1779.awsdns-30.co.uk",
+    "ns-762.awsdns-31.net"
   ]
 }
 
@@ -160,7 +160,7 @@ resource "aws_route53_record" "curis_mx_record" {
 //
 //  records = [
 //    "ns-388.awsdns-48.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-//  ]
+//  ]ns-27.awsdns-03.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
 //}
 
 resource "aws_route53_record" "curis_txt_ms_record" {
