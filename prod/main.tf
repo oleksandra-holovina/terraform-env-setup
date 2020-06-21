@@ -99,6 +99,14 @@ data "aws_ssm_parameter" "curis_db_password" {
   name = "/config/curis-api/db.password"
 }
 
+data "aws_ssm_parameter" "curis_jwt_secret" {
+  name = "/config/curis-api/jwt.secret"
+}
+
+data "aws_ssm_parameter" "curis_keystore_password" {
+  name = "/config/curis-api/keystore.password"
+}
+
 module "curis_db" {
   source = "../modules/rds"
 
@@ -145,23 +153,12 @@ resource "aws_route53_record" "curis_mx_record" {
   name    = module.curis_route53.curis_domain_name
   type    = "MX"
   zone_id = module.curis_route53.curis_zone_id
-  ttl     = 1800
+  ttl     = 3600
 
   records = [
-    "10 inbound-smtp.us-east-1.amazonaws.com"
+    "10 curisnow-com.mail.protection.outlook.com."
   ]
 }
-
-//resource "aws_route53_record" "curis_soa_record" {
-//  name    = module.curis_route53.curis_domain_name
-//  type    = "SOA"
-//  zone_id = module.curis_route53.curis_zone_id
-//  ttl     = 900
-//
-//  records = [
-//    "ns-388.awsdns-48.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400"
-//  ]ns-27.awsdns-03.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400
-//}
 
 resource "aws_route53_record" "curis_txt_ms_record" {
   name    = module.curis_route53.curis_domain_name
@@ -170,7 +167,7 @@ resource "aws_route53_record" "curis_txt_ms_record" {
   ttl     = 3600
 
   records = [
-    "MS=ms38320224"
+    "v=spf1 include:spf.protection.outlook.com -all"
   ]
 }
 
